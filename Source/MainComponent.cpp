@@ -13,8 +13,11 @@ void BeatButtonLook::drawButtonBackground(juce::Graphics& g, juce::Button& butto
   buttonArea.setWidth(200);
   buttonArea.setHeight(120);
 
-  g.setColour(juce::Colours::orange);
+  juce::Colour color = shouldDrawButtonAsHighlighted ? juce::Colours::orangered : juce::Colours::orange;
+  color = isButtonDown ? juce::Colours::red : color;
+  g.setColour(color);
   g.fillRect(buttonArea);
+
   
 }
 
@@ -22,18 +25,15 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    setSize (1200, 600);
     
     look.setColour(juce::TextButton::ColourIds::buttonColourId,juce::Colours::red);
-    addAndMakeVisible(bButton1);
-    addAndMakeVisible(bButton2);
-    addAndMakeVisible(bButton3);
-    addAndMakeVisible(bButton4);
-    addAndMakeVisible(bButton5);
-    addAndMakeVisible(bButton6);
-    addAndMakeVisible(bButton7);
-    addAndMakeVisible(bButton8);
-    bButton1.setLookAndFeel(&look);
+    for (int i = 0; i < numberOfPushButtons; i++)
+    {
+        addAndMakeVisible(pushButtons[i]);
+        pushButtons[i].setLookAndFeel(&look);
+    }
+    
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
         && ! juce::RuntimePermissions::isGranted (juce::RuntimePermissions::recordAudio))
@@ -96,17 +96,19 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    const int xOffset = 62;
+    
     const int punshW = 60;
     const int punshH = 60;
-    bButton1.setBounds(20,300,punshW,punshH);
-    bButton2.setBounds(20+xOffset, 300, 60, 60);
-    bButton3.setBounds(20+xOffset*2, 300, punshW, punshH);
-    bButton4.setBounds(20 + xOffset * 3, 300, punshW, punshH);
-    bButton5.setBounds(20 + xOffset * 4, 300, punshW, punshH);
-    bButton6.setBounds(20 + xOffset * 5, 300, punshW, punshH);
-    bButton7.setBounds(20 + xOffset * 6, 300, punshW, punshH);
-    bButton8.setBounds(20 + xOffset * 7, 300, punshW, punshH);
+    const int xOffset = punshW+2;
+    int leftStart = (getWidth()/2 ) - xOffset*(numberOfPushButtons/2);
+    int bottomOffset = getHeight() - punshH *2;
+    for (int i = 0; i < numberOfPushButtons; i++)
+    {
+
+        pushButtons[i].setBounds(leftStart+xOffset*i,bottomOffset,punshW,punshH);
+
+    }
+
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.

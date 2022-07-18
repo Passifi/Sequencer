@@ -16,13 +16,29 @@ class BeatButtonLook : public juce::LookAndFeel_V4 {
 
 };
 
+class PadLook : public juce::LookAndFeel_V4 {
 
+public:
+
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool shouldDrawButtonAsHighlighted, bool isButtonDown) override;
+
+
+};
+
+
+class DialSliderLook : public juce::LookAndFeel_V4 {
+    public:
+        DialSliderLook();
+        void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
+
+};
 
 
 
 class MainComponent  : public juce::AudioAppComponent
 {
 public:
+    const int numberOfPads = 16;
     //==============================================================================
     MainComponent();
     ~MainComponent() override;
@@ -37,9 +53,20 @@ public:
     void resized() override;
 
 private:
-    BeatButtonLook look;
-    std::array<juce::TextButton,numberOfPushButtons> pushButtons;
     
+    enum KnobSliders  {
+        Speed,Swing, CutOff, Res, Gain,KnobSliderLength
+    };
+
+    
+    
+    BeatButtonLook look;
+    DialSliderLook lookSlider;
+    PadLook padLook;
+    std::array<juce::TextButton, 16> pads;
+    std::array<juce::TextButton,numberOfPushButtons> pushButtons;
+    std::array<juce::Slider,KnobSliderLength> sliders;
+
     //==============================================================================
     // Your private member variables go here...
 

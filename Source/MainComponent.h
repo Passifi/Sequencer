@@ -2,6 +2,7 @@
 #include <array>
 #include <JuceHeader.h>
 const int numberOfPushButtons = 16;
+const int numberOfPads = 16;
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -38,7 +39,7 @@ class DialSliderLook : public juce::LookAndFeel_V4 {
 class MainComponent  : public juce::AudioAppComponent
 {
 public:
-    const int numberOfPads = 16;
+    
     //==============================================================================
     MainComponent();
     ~MainComponent() override;
@@ -63,7 +64,7 @@ private:
     BeatButtonLook look;
     DialSliderLook lookSlider;
     PadLook padLook;
-    std::array<juce::TextButton, 16> pads;
+    std::array<juce::TextButton, numberOfPads> pads;
     std::array<juce::TextButton,numberOfPushButtons> pushButtons;
     std::array<juce::Slider,KnobSliderLength> sliders;
 

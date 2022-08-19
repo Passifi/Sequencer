@@ -172,19 +172,21 @@ void MainComponent::resized()
     sliders[Speed].setBounds(getWidth()/2,20 , 64, 64);
     sliders[Swing].setBounds(getWidth() / 2+65, 34, 50, 50);
 
+
     sliders[CutOff].setBounds(getWidth()/2 + getWidth()/4, 20, 60,60);
     sliders[Res].setBounds(getWidth() / 2 + getWidth() / 4 + 62, 20, 60, 60);
     sliders[Gain].setBounds(getWidth() / 2 + getWidth() / 4 + 124, 20, 60, 60);
 
     for (int i = 0; i < numberOfPushButtons; i++)
     {
-        if (i < 16) {
-            pads[i].setBounds(padX+i*padOffsetX,padY+(i%4)*padOffsetY,padW,padH);
-        }
+         
+        pads[i].setBounds((padX) + padOffsetX*(i%4), padY + (int)(i / 4) * padOffsetY, padW, padH);
+        
         pushButtons[i].setBounds(leftStart+xOffset*i,bottomOffset,punshW,punshH);
 
     }
    
+    
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
